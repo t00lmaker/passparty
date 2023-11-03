@@ -1,0 +1,19 @@
+# .gitignore
+*.log
+*.pid
+*.lock
+db/*.sqlite3
+db/*.sqlite3-journal
+tmp
+/public/system
+/.bundle
+/vendor/bundle
+.rvmrc
+.env
+.DS_Store
+.idea
+*.swp
+*~
+.project
+
+./data
