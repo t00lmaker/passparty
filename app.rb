@@ -5,6 +5,9 @@ require 'sinatra/reloader' if development?
 
 require 'rqrcode'
 
+set :database, {adapter: "postgresql", database: "passparty"}
+
+
 get '/guest' do
   erb :guest
 end
