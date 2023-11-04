@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_03_004649) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_04_020535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "guest", force: :cascade do |t|
+  create_table "guests", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "phone"
+    t.string "salt"
     t.boolean "has_children"
+    t.index ["salt"], name: "index_guests_on_salt"
   end
 
 end
