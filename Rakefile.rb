@@ -1,3 +1,10 @@
 # Rakefile
-require './app' # or whatever file you're using to define your Sinatra application
-require 'sinatra/activerecord/rake'
+require './app' 
+require "bundler/setup"
+load "tasks/otr-activerecord.rake"
+
+namespace :db do
+  task :environment do
+    require_relative "app"
+  end
+end

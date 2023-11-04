@@ -31,8 +31,6 @@ docker-compose up --build
 
 4. Access localhost:4567 in your browser.
 
-
-
 ## Util Commands
 
 1. Connect into app container:
@@ -44,7 +42,7 @@ docker-compose up --build
 2. Install postgres: 
 
 ```bash
-apt install postgresql
+apt update && apt install -y postgresql
 ```
 
 3. Connect to database:

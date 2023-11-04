@@ -4,8 +4,10 @@ require 'sinatra/json'
 require 'sinatra/reloader' if development?
 
 require 'rqrcode'
+require 'otr-activerecord'
 
-set :database, {adapter: "postgresql", database: "passparty"}
+OTR::ActiveRecord.configure_from_file! "config/database.yml"
+OTR::ActiveRecord.establish_connection!
 
 
 get '/guest' do

@@ -1,3 +1,6 @@
 # config.ru
 require './app'
-run Sinatra::Application
+
+use OTR::ActiveRecord::ConnectionManagement
+
+run Sinatra::Application 

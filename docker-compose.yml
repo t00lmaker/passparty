@@ -6,9 +6,9 @@ services:
     image: docker.io/library/postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: passparty
+      - POSTGRES_USER=passparty
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=passparty
     volumes:
       - ./data:/var/lib/postgresql/data
     ports:
@@ -18,5 +18,10 @@ services:
     build: .
     ports:
       - 4567:4567
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: passparty
+      DATABASE_USER: passparty
+      DATABASE_PASSWORD: pass
     depends_on:
       - db
