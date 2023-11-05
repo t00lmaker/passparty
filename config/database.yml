@@ -17,5 +17,4 @@ test:
   database: <%= ENV['DATABASE_NAME'] || 'passparty_test' %>
 
 production:
-  <<: *default
-  database: <%= ENV['DATABASE_NAME'] || 'passparty_prod' %>
+  url: <%= ENV['DATABASE_URL'] %>
