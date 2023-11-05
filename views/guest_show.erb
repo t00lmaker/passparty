@@ -44,6 +44,12 @@ p {
     <strong>Possui Filhos:</strong>
     <%= @guest.has_children ? 'Sim' : 'Não' %>
   </p>
+  <% if @guest.confirmation %>
+  <p>
+    <strong>Data e Hora da entrada no Evento:</strong>  
+    <br><%=  @guest.confirmation.created_at %>
+  <p>
+  <% end %>
 </div>
 
 <% if @qrcode_svg %>
@@ -51,7 +57,7 @@ p {
     <%= @qrcode_svg %>
   </div>
 <% end %>
-<% if @salt %>
+<% if @salt and not @guest.confirmation %>
   <div class="confirm">
     <form id="confirm-form" action="/guests/confirm/<%= @salt %>" method="post">
       <input type="hidden" name="salt" value="<%= @salt %>">

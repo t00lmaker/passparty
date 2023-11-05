@@ -7,6 +7,7 @@ require 'sinatra/reloader' if development?
 require 'rqrcode'
 require 'otr-activerecord'
 require './models/guest'
+require './models/confirmation'
 require 'csv'
 
 
@@ -38,10 +39,16 @@ end
 
 get '/guests/confirm/:salt' do
   @guest = Guest.find_by(salt: params[:salt])
-  @message = "Confirme os dados abaixo para confirmar a entrada do convidado."
-  @message_type = "primary"
-  @salt = params[:salt]
-  erb :guest_show
+  if(@guest)
+    @message = "Confirme os dados abaixo para confirmar a entrada do convidado."
+    @message_type = "primary"
+    @salt = params[:salt]
+    erb :guest_show
+  else
+    @message = "Usuário não encontrado!"
+    @message_type = "warning"
+    erb :not_found
+  end
 end
 
 get '/guests/:id' do
@@ -64,8 +71,17 @@ end
 
 post '/guests/confirm/:salt' do
   @guest = Guest.find_by(salt: params[:salt])
-  @message = "Entrada confirmada com sucesso!"
-  @message_type = "success"
+  
+  @confirmation = Confirmation.find_by(guest_id: @guest.id)
+  if(@confirmation)
+    @message = "O usuário já confirmou a entrada!"
+    @message_type = "warning"
+  else
+    @confirmation = Confirmation.create(guest_id: @guest.id)
+    @message = "Entrada confirmada com sucesso!"
+    @message_type = "success"
+  end
+    
   erb :guest_show
 end
 
