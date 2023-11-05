@@ -1,6 +1,12 @@
-
-<h1>Import Guests</h1>
-<form action="/guests/import" method="post" enctype="multipart/form-data">
-  <input type="file" name="file" accept=".csv">
-  <input type="submit" value="Import">
+<style>
+  form {
+    width: 60%;
+  }
+</style>
+<h1>Importe Convidados de um CSV</h1>
+<hr>
+<form id="import-form" action="/guests/import" method="post" enctype="multipart/form-data">
+  <br><br><br>Selecione o Arquivo <br> <input type="file" name="file" accept=".csv"><br><br><br>
+  <a href="javascript:{}" onclick="document.getElementById('import-form').submit(); return false;" class="btn btn-primary btn-sm"><i class="bi bi-save"></i> Salvar</a>
+  <a href="/guests" class="btn btn-danger btn-sm"><i class="bi-x-circle"></i> Cancelar</a>
 </form>

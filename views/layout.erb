@@ -22,24 +22,30 @@
     </head>
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow navbar-custom-shadow">
-    <a class="navbar-brand" href="#">Pass Party</a>
+    <a class="navbar-brand" href="/guests">Pass Party</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Menu 1</a>
+          <a class="nav-link" href="/guests">Lista de Convidados</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Menu 2</a>
+          <a class="nav-link" href="/guest">Castrar Covidado</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link" href="#">Menu 3</a>
+          <a class="nav-link" href="/guests/confirm">Validar Presença</a>
           </li>
           </ul>
           </div>
           </nav>
+          <% if @message %>
+          <div class="alert alert-<%= @message_type %>" role="alert">
+          <%= @message %>  
+          </div>
+          <% end %>
+
           <div class="container container-custom-margin">
           <%= yield %>
           </div>

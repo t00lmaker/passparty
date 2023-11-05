@@ -73,9 +73,13 @@ post '/guest' do
   )
 
   if @guest.save
-    "Guest saved successfully."
+    @message = "Convidado salvo com suecesso!"
+    @message_type = "success"
+    erb :guest_show
   else
-    "There was an error saving the guest: " + @guest.errors.full_messages.join(", ")
+    @message = "Alguns problemas foram encontrados ao tentar salvar o convidado: " + @guest.errors.full_messages.join(", ")
+    @message_type = "danger"
+    erb :guest
   end
 end
 

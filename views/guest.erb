@@ -1,6 +1,14 @@
+<style>
+  form {
+    width: 60%;
+  }
+</style>
+
+<h1>Adicionar Convidado</h1>
+<hr/>
 <div class="row justify-content-center">
-  <div class="col-md-6">
-    <form action="/guest" method="post" class="needs-validation" novalidate>
+  <div class="col-md-12">
+    <form id="guest-form" action="/guest" method="post" class="needs-validation" novalidate>
       <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" class="form-control" id="name" name="name" value="<%= @guest.name %>" required>
@@ -20,8 +28,11 @@
         <input type="checkbox" class="form-check-input" id="has_children" name="has_children" value="true" <%= 'checked' if @guest.has_children %>>
         <label class="form-check-label" for="has_children">Children</label>
       </div>
+      
+      <br/>
 
-      <button type="submit" class="btn btn-primary">Register</button>
+      <a href="javascript:{}" onclick="document.getElementById('guest-form').submit(); return false;" class="btn btn-primary btn-sm"><i class="bi bi-save"></i> Salvar</a>
+      <a href="/guests" class="btn btn-danger btn-sm"><i class="bi-x-circle"></i> Cancelar</a>
     </form>
   </div>
 </div>

@@ -30,23 +30,21 @@ p {
   height: 100%;
 }
 </style>
-<div class="container">
-  <div>
-    <h1><%= @guest.name %></h1>
-    <p>
-      <strong>Email:</strong>
-      <%= @guest.email %>
-    </p>
-    <p>
-      <strong>Telefone:</strong>
-      <%= @guest.phone %>
-    </p>
-    <p>
-      <strong>Possui Filhos:</strong>
-      <%= @guest.has_children ? 'Sim' : 'Não' %>
-    </p>
-  </div>
-  <div class="qr-code">
-    <%= @qrcode_svg %>
-  </div>
+<div>
+  <h1><%= @guest.name %></h1>
+  <p>
+    <strong>Email:</strong>
+    <%= @guest.email %>
+  </p>
+  <p>
+    <strong>Telefone:</strong>
+    <%= @guest.phone %>
+  </p>
+  <p>
+    <strong>Possui Filhos:</strong>
+    <%= @guest.has_children ? 'Sim' : 'Não' %>
+  </p>
+</div>
+<div class="qr-code">
+  <%= @qrcode_svg %>
 </div>
