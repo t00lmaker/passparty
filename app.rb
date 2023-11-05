@@ -36,13 +36,17 @@ get '/guests/export' do
   end
 end
 
-get '/guests/confirm' do
-  erb :guests_confirm
+get '/guests/confirm/:salt' do
+  @guest = Guest.find_by(salt: params[:salt])
+  @message = "Confirme os dados abaixo para confirmar a entrada do convidado."
+  @message_type = "primary"
+  @salt = params[:salt]
+  erb :guest_show
 end
 
 get '/guests/:id' do
   @guest = Guest.find(params[:id])
-  qrcode = RQRCode::QRCode.new("http://#{URL}/guests/confirm/#{@guest[:salt]}")
+  qrcode = RQRCode::QRCode.new("#{URL}/guests/confirm/#{@guest[:salt]}")
   @qrcode_svg = qrcode.as_svg(
     color: "000",
     shape_rendering: "crispEdges",
@@ -58,8 +62,11 @@ get '/guests/:id/edit' do
   erb :guest
 end
 
-post '/guests/confirm' do
-  erb :guests
+post '/guests/confirm/:salt' do
+  @guest = Guest.find_by(salt: params[:salt])
+  @message = "Entrada confirmada com sucesso!"
+  @message_type = "success"
+  erb :guest_show
 end
 
 post '/guest' do
@@ -88,7 +95,7 @@ post '/guests/import' do
   if params[:file] && params[:file][:tempfile]
     CSV.foreach(params[:file][:tempfile], headers: true) do |row|
       print(row)
-      guest = Guest.create(row.to_hash)
+      guest = Guest.create(row.to_hash.merge({is_active: true, salt: SecureRandom.uuid.split("-")[0]}))
       unless guest.valid? 
         puts  guest.errors.objects.first.full_message
       end

@@ -45,6 +45,19 @@ p {
     <%= @guest.has_children ? 'Sim' : 'Não' %>
   </p>
 </div>
-<div class="qr-code">
-  <%= @qrcode_svg %>
-</div>
+
+<% if @qrcode_svg %>
+  <div class="qr-code">
+    <%= @qrcode_svg %>
+  </div>
+<% end %>
+<% if @salt %>
+  <div class="confirm">
+    <form id="confirm-form" action="/guests/confirm/<%= @salt %>" method="post">
+      <input type="hidden" name="salt" value="<%= @salt %>">
+      <h1> O convidado está entrando no evento? </h1> 
+      <a href="javascript:{}" onclick="document.getElementById('confirm-form').submit(); return false;" class="btn btn-primary btn-sm"><i class="bi bi-bookmark-check-fill"></i> Confirmar Entrada</a>
+      <a href="/guests" class="btn btn-danger btn-sm"><i class="bi-x-circle"></i> Cancelar</a>
+    </form>
+  </div>
+<% end %>
