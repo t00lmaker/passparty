@@ -10,3 +10,4 @@ gem 'thin'
 gem "otr-activerecord"
 gem 'pg' 
 gem 'rake'
+gem 'csv' 

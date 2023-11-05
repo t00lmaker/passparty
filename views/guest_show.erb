@@ -1,0 +1,52 @@
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+.container {
+  display: flex;
+  width: 80%;
+  margin: 3% auto;
+  background-color: #fff;
+  padding: 3%;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+.container > div {
+  flex: 1;
+}
+h1, p {
+  color: #333;
+}
+p {
+  font-size: 1.2em;
+}
+.qr-code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+</style>
+<div class="container">
+  <div>
+    <h1><%= @guest.name %></h1>
+    <p>
+      <strong>Email:</strong>
+      <%= @guest.email %>
+    </p>
+    <p>
+      <strong>Telefone:</strong>
+      <%= @guest.phone %>
+    </p>
+    <p>
+      <strong>Possui Filhos:</strong>
+      <%= @guest.has_children ? 'Sim' : 'Não' %>
+    </p>
+  </div>
+  <div class="qr-code">
+    <%= @qrcode_svg %>
+  </div>
+</div>

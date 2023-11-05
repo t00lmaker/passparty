@@ -2,10 +2,10 @@
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 
 <div class="justify-content-between mb-4">
-  <h1 class="d-inline-block mr-3">Guest List</h1>
+  <h1 class="d-inline-block mr-3">Lista de Convidados</h1><br>
   <a href="/guest" class="btn btn-primary"><i class="bi-person-plus"></i> Adicionar Convidado</a>
   <a href="/guests/import" class="btn btn-primary"><i class="bi-box-arrow-in-down"></i> Importar Lista</a>
-  <a href="/guests/export" class="btn btn-primary"><i class="bi-box-arrow-down"></i> Exportar Lista</a>
+  <a href="/guests/export"  class="btn btn-primary"><i class="bi-box-arrow-down"></i> Exportar Lista</a>
 </div>
 
 <style>
@@ -13,17 +13,20 @@
 .table-striped>tbody>tr:nth-child(odd)>th {
    background-color: rgba(10, 173, 254, 0.08);
  }
+
+ #guestTable th, #guestTable td {
+  text-align: center;
+} 
 </style>
 <table id="guestTable" class="table table-striped">
   <thead class="thead">
     <tr>
       <th scope="col">Activo</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Phone</th>
-      <th scope="col">Has Children</th>
-      <th scope="col">Is Active</th>
-      <th scope="col">Actions</th>
+      <th scope="col">Nome</th>
+      <th scope="col">E-mail</th>
+      <th scope="col">Celular</th>
+      <th scope="col">Tem Filhos?</th>
+      <th scope="col">Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -38,11 +41,10 @@
         <td><%= guest.name %></td>
         <td><%= guest.email %></td>
         <td><%= guest.phone %></td>
-        <td><%= guest.has_children ? 'Yes' : 'No' %></td>
-        <td><%= guest.is_active ? 'Yes' : 'No' %></td>
+        <td><%= guest.has_children ? 'Sim' : 'Não' %></td>
         <td>
-          <a href="/guests/<%= guest.id %>" class="btn btn-info btn-sm"><i class="bi-eye"></i> Show</a>
-          <a href="/guests/<%= guest.id %>/edit" class="btn btn-warning btn-sm"><i class="bi-pencil"></i> Edit</a>
+          <a href="/guests/<%= guest.id %>" class="btn btn-info btn-sm"><i class="bi-eye"></i> Detalhes</a>
+          <a href="/guests/<%= guest.id %>/edit" class="btn btn-warning btn-sm"><i class="bi-pencil"></i> Editar</a>
         </td>
       </tr>
     <% end %>
