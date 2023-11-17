@@ -45,7 +45,7 @@ end
 
 get '/guests/confirm/:salt' do
   @guest = Guest.find_by(salt: params[:salt])
-  if(@guest and @guest.is_activ and not @guest.confirmation  )
+  if(@guest and @guest.is_active and not @guest.confirmation  )
     @message = "Confirme os dados abaixo para confirmar a entrada do convidado."
     @message_type = "primary"
     @salt = params[:salt]
