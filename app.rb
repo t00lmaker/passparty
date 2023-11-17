@@ -16,6 +16,12 @@ OTR::ActiveRecord.establish_connection!
 
 URL = ENV["APP_URL"] || "localhost:9292" 
 
+
+get '/' do
+  @guest = Guest.new
+  erb :index
+end
+
 get '/guest' do
   @guest = Guest.new
   erb :guest
@@ -62,6 +68,39 @@ get '/guests/:id' do
     use_path: true
   )
   erb :guest_show
+end
+
+get '/api/guest/:salt' do
+  @guest = Guest.find_by(salt: params[:salt])
+  if @guest
+    json @guest
+  else
+    status 404
+    json({message: "Usuário não encontrado!"})
+  end
+end
+
+post '/api/guests/confirm/:salt' do
+  @guest = Guest.find_by(salt: params[:salt])
+  if @guest
+    if not @guest.is_active
+      status 420
+      json({message: "Usuário não está ativo!"})
+    end
+    
+    @confirmation = Confirmation.find_by(guest_id: @guest.id)
+    if @confirmation
+      status 420
+      json({message: "Usuário já confirmou entrada!"})
+    else
+      @confirmation = Confirmation.create(guest_id: @guest.id)
+      status 200
+      json({message: "Entrada confirmada com sucesso!"})
+    end
+  else
+    status 404
+    json({message: "Usuário não encontrado!"})
+  end
 end
 
 get '/guests/:id/edit' do
