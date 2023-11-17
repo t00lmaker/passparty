@@ -23,9 +23,9 @@
     <tr>
       <th scope="col">Activo</th>
       <th scope="col">Nome</th>
-      <th scope="col">E-mail</th>
       <th scope="col">Celular</th>
-      <th scope="col">Tem Filhos?</th>
+      <th scope="col">Faixa Etaria</th>
+      <th scope="col">Tem Convidados?</th>
       <th scope="col">Ações</th>
     </tr>
   </thead>
@@ -39,8 +39,8 @@
           </div>
         </td>
         <td><%= guest.name %></td>
-        <td><%= guest.email %></td>
         <td><%= guest.phone %></td>
+        <td><%= guest.age %></td>
         <td><%= guest.has_children ? 'Sim' : 'Não' %></td>
         <td>
           <a href="/guests/<%= guest.id %>" class="btn btn-info btn-sm"><i class="bi-eye"></i> Detalhes</a>

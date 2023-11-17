@@ -30,16 +30,16 @@ get '/guests/export' do
   attachment "guests.csv"
 
   CSV.generate do |csv|
-    csv << ["Name", "Email", "Phone", "Has Children", "Is Active"]
+    csv << ["Name", "Phone", "Age" "Has Children", "Is Active"]
     Guest.all.each do |guest|
-      csv << [guest.name, guest.email, guest.phone, guest.has_children, guest.is_active]
+      csv << [guest.name, guest.phone, guest.has_children, guest.is_active]
     end
   end
 end
 
 get '/guests/confirm/:salt' do
   @guest = Guest.find_by(salt: params[:salt])
-  if(@guest)
+  if(@guest and @guest.is_activ and not @guest.confirmation  )
     @message = "Confirme os dados abaixo para confirmar a entrada do convidado."
     @message_type = "primary"
     @salt = params[:salt]
@@ -88,8 +88,8 @@ end
 post '/guest' do
   @guest = Guest.new(
     name: params[:name], 
-    email: params[:email], 
     phone: params[:phone], 
+    age: params[:age],
     has_children: params[:has_children] ? true : false, 
     is_active: true, 
     salt: SecureRandom.uuid.split("-")[0]
