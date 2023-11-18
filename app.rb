@@ -161,6 +161,12 @@ post '/guests/import' do
   redirect '/guests'
 end
 
+put '/guests/:id/disable' do
+  @guest = Guest.find(params[:id])
+  @guest.update(is_active: !@guest.is_active)
+  {is_active: @guest.is_active}.to_json
+end
+
 get '/guests' do
   @guests = Guest.all
   erb :guests

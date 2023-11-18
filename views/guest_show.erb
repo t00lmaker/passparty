@@ -46,8 +46,8 @@ p {
   </p>
   <% if @guest.confirmation %>
   <p>
-    <strong>Data e Hora da entrada no Evento:</strong>  
-    <br><%=  @guest.confirmation.created_at %>
+    <strong>O confidado entrou no evento às</strong>  
+    <br><%=  @guest.confirmation.created_at.strftime("%H:%M do dia %d/%m/%Y") %>
   <p>
   <% end %>
 </div>

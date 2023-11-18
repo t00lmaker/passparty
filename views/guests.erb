@@ -25,7 +25,8 @@
       <th scope="col">Nome</th>
       <th scope="col">Celular</th>
       <th scope="col">Faixa Etaria</th>
-      <th scope="col">Tem Convidados?</th>
+      <th scope="col">Salt</th>
+      <th scope="col">Confirmation</th>
       <th scope="col">Ações</th>
     </tr>
   </thead>
@@ -34,14 +35,15 @@
       <tr>
         <td>
           <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitch<%= guest.id %>" <%= 'checked' if guest.is_active %> onclick="window.location.href='/guests/<%= guest.id %>/disable'">
+            <input type="checkbox" class="custom-control-input" id="customSwitch<%= guest.id %>" <%= 'checked' if guest.is_active %> data-id="<%= guest.id %>">
             <label class="custom-control-label" for="customSwitch<%= guest.id %>"></label>
           </div>
         </td>
         <td><%= guest.name %></td>
         <td><%= guest.phone %></td>
         <td><%= guest.age %></td>
-        <td><%= guest.has_children ? 'Sim' : 'Não' %></td>
+        <td><%= guest.salt %></td>
+        <td><%= guest.confirmation ? 'Sim' : 'Não' %></td>
         <td>
           <a href="/guests/<%= guest.id %>" class="btn btn-info btn-sm"><i class="bi-eye"></i> Detalhes</a>
           <a href="/guests/<%= guest.id %>/edit" class="btn btn-warning btn-sm"><i class="bi-pencil"></i> Editar</a>
@@ -54,11 +56,23 @@
 <script>
 
 $(document).ready( function () {
-    $('#guestTable').DataTable({
-        "pageLength": 25,
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
-        }
+  $('#guestTable').DataTable({
+      "pageLength": 25,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
+      }
+  });
+
+  $('.custom-control-input').on('change', function(){
+    var guestId = $(this).data('id');
+    $.ajax({
+      url: '/guests/' + guestId + '/disable',
+      type: 'PUT',
+      success: function(response) {
+        // Handle the response here
+      }
     });
-} );
+  });
+});
+
 </script>
