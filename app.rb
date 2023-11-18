@@ -71,9 +71,10 @@ get '/guests/:id' do
 end
 
 get '/api/guest/:salt' do
+  content_type :json
   @guest = Guest.find_by(salt: params[:salt])
   if @guest
-    json @guest
+    @guest.to_json(include: :confirmation)
   else
     status 404
     json({message: "Usuário não encontrado!"})
