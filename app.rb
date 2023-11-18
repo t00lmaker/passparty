@@ -42,9 +42,9 @@ get '/guests/export' do
   attachment "guests.csv"
 
   CSV.generate do |csv|
-    csv << ["Name", "Phone", "Age" "Has Children", "Is Active"]
+    csv << ["id", "Convidado", "Faixa Etária" "Telefone"]
     Guest.all.each do |guest|
-      csv << [guest.name, guest.phone, guest.has_children, guest.is_active]
+      csv << [guest.id, guest.name, guest.age, guest.phone]
     end
   end
 end
@@ -136,7 +136,6 @@ post '/guest' do
     name: params[:name], 
     phone: params[:phone], 
     age: params[:age],
-    has_children: params[:has_children] ? true : false, 
     is_active: true, 
     salt: SecureRandom.uuid.split("-")[0]
   )

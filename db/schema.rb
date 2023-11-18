@@ -27,7 +27,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_05_191753) do
     t.string "phone"
     t.string "salt"
     t.string "age"
-    t.boolean "has_children"
     t.boolean "is_active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
