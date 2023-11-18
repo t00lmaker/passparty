@@ -9,7 +9,13 @@ require 'otr-activerecord'
 require './models/guest'
 require './models/confirmation'
 require 'csv'
+require 'i18n'
 
+configure do
+  I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+  I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
+  I18n.backend.load_translations
+end
 
 OTR::ActiveRecord.configure_from_file! "config/database.yml"
 OTR::ActiveRecord.establish_connection!

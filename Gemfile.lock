@@ -75,6 +75,7 @@ PLATFORMS
 
 DEPENDENCIES
   csv
+  i18n
   otr-activerecord
   pg
   rake

@@ -11,3 +11,4 @@ gem "otr-activerecord"
 gem 'pg' 
 gem 'rake'
 gem 'csv' 
+gem 'i18n'
