@@ -22,6 +22,14 @@ OTR::ActiveRecord.establish_connection!
 
 URL = ENV["APP_URL"] || "localhost:9292" 
 
+not_found do
+  erb :not_found
+end
+
+error 500 do
+  erb :internal_error
+end
+
 
 get '/' do
   @guest = Guest.new
