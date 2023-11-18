@@ -3,7 +3,6 @@ class Guest < ActiveRecord::Base
 
   validates :name, presence: true
   validates :phone, presence: true, length: { is: 15 }
-  validates :has_children, inclusion: { in: [true, false] }
   validates :is_active, inclusion: { in: [true, false] }
   validates :age, presence: true, inclusion: { in: ["idoso", "adulto", "adolescente", "crianca"] }
 end
