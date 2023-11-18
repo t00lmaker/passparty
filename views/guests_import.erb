@@ -10,3 +10,25 @@
   <a href="javascript:{}" onclick="document.getElementById('import-form').submit(); return false;" class="btn btn-primary btn-sm"><i class="bi bi-save"></i> Salvar</a>
   <a href="/guests" class="btn btn-danger btn-sm"><i class="bi-x-circle"></i> Cancelar</a>
 </form>
+
+<% if @invalid_guests %>
+<br>
+<h2>Registros Inválidos</h2>
+<hr>
+<table>
+  <thead>
+    <tr>
+      <th>Linha</th>
+      <th>Erros</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invalid_guests.each do |guest| %>
+      <tr>
+        <td><%= guest[:line] %></td>
+        <td><%= guest[:errors] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>

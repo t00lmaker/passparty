@@ -50,7 +50,7 @@ get '/guests/export' do
   attachment "guests.csv"
 
   CSV.generate do |csv|
-    csv << ["id", "Convidado", "Faixa Etária" "Telefone"]
+    csv << ["id", "Convidado", "Faixa Etária", "Telefone"]
     Guest.all.each do |guest|
       csv << [guest.id, guest.name, guest.age, guest.phone]
     end
@@ -161,17 +161,63 @@ end
 
 
 post '/guests/import' do
+  
+  valid_guests = []
+  invalid_guests = []
+  
   if params[:file] && params[:file][:tempfile]
+    i = 0
     CSV.foreach(params[:file][:tempfile], headers: true) do |row|
-      print(row)
-      guest = Guest.create(row.to_hash.merge({is_active: true, salt: SecureRandom.uuid.split("-")[0]}))
-      unless guest.valid? 
-        puts  guest.errors.objects.first.full_message
+      i += 1
+      from_to_attributes = {
+        'CONVIDADO' => 'name',
+        'FAIXA ETÁRIA' => 'age',
+        'TELEFONE' => 'phone'
+      }
+      row_hash = row.to_hash
+      transformed_hash = row_hash.transform_keys { |key| from_to_attributes[key] }
+
+      if transformed_hash.size != 3 or transformed_hash.values.any? {|v| v.nil? or v.empty?} 
+        invalid_guests << {line: i, errors: "Dados incompletos"}
+        next
+      end
+
+      from_to_age = {
+        "ADULTO" => "adulto",
+        "CRIANÇA" => "crianca",
+        "IDOSO" => "idoso",
+      }
+
+      transformed_hash['phone'] = transformed_hash['phone'].gsub(/\D/, '')
+      transformed_hash['phone'] = transformed_hash['phone'].insert(0, '(').insert(3, ') ').insert(10, '-')
+      transformed_hash['age'] = from_to_age[transformed_hash['age']] ? from_to_age[transformed_hash['age']] : "crianca"
+      
+      guest = Guest.new(transformed_hash.merge({is_active: true, salt: SecureRandom.uuid.split("-")[0]}))
+      if guest.valid?  
+        valid_guests << guest        
+      else 
+        invalid_guests << {line: i, errors: guest.errors.full_messages.join(', ')}
       end
     end
+  else
+    @message = "Aquivo não encontrado!"
+    @message_type = "danger"
+    return erb :guests_import
   end
 
-  redirect '/guests'
+  if invalid_guests.empty?
+    valid_guests.each do |guest|
+      guest.save
+    end
+    @message = "Convidados salvos com suecesso! (Total #{valid_guests.size})"
+    @message_type = "success"
+    redirect '/guests'
+  else
+    @message = "Alguns problemas foram encontrados ao tentar salvar os convidados: "
+    @message_type = "danger"
+    @invalid_guests = invalid_guests
+    erb :guests_import
+  end
 end
 
 put '/guests/:id/disable' do

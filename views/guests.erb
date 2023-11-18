@@ -27,7 +27,8 @@
       <th scope="col">Faixa Etaria</th>
       <th scope="col">Salt</th>
       <th scope="col">Confirmation</th>
-      <th scope="col">Ações</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -46,6 +47,8 @@
         <td><%= guest.confirmation ? 'Sim' : 'Não' %></td>
         <td>
           <a href="/guests/<%= guest.id %>" class="btn btn-info btn-sm"><i class="bi-eye"></i> Detalhes</a>
+        </td>
+        <td>
           <a href="/guests/<%= guest.id %>/edit" class="btn btn-warning btn-sm"><i class="bi-pencil"></i> Editar</a>
         </td>
       </tr>
