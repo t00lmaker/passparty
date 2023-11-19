@@ -73,7 +73,7 @@ end
 
 get '/guests/:id' do
   @guest = Guest.find(params[:id])
-  qrcode = RQRCode::QRCode.new("#{URL}/guests/confirm/#{@guest[:salt]}")
+  qrcode = RQRCode::QRCode.new("#{@guest[:salt]}")
   @qrcode_svg = qrcode.as_svg(
     color: "000",
     shape_rendering: "crispEdges",
