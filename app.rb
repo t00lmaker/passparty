@@ -86,6 +86,7 @@ end
 
 get '/api/guest/:salt' do
   content_type :json
+  
   @guest = Guest.find_by(salt: params[:salt])
   if @guest
     @guest.to_json(include: :confirmation)
@@ -96,6 +97,8 @@ get '/api/guest/:salt' do
 end
 
 post '/api/guests/confirm/:salt' do
+  content_type :json
+
   @guest = Guest.find_by(salt: params[:salt])
   if @guest
     if not @guest.is_active
