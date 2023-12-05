@@ -31,10 +31,21 @@ class QRCodeGenerator
   end
 end
 
-OTR::ActiveRecord.configure_from_file! "config/database.yml"
+OTR::ActiveRecord.configure_from_hash!(
+    adapter: "postgresql", 
+    host: ENV['DATABASE_USERNAME'], 
+    database: ENV['DATABASE_NAME'], 
+    username: ENV['DATABASE_USERNAME'], 
+    password: ENV['DATABASE_PASSWORD'], 
+    encoding: "utf8", 
+    pool: 10, 
+    timeout: 5000
+  )
+
 OTR::ActiveRecord.establish_connection!
 
-@guests = Guest.first(100)
+
+@guests = Guest.first(500)
 for guest in @guests
   QRCodeGenerator.generate(guest)
 end
