@@ -190,8 +190,12 @@ post '/guests/import' do
 
       from_to_age = {
         "ADULTO" => "adulto",
+        "ADULTA" => "adulto",
         "CRIANÇA" => "crianca",
         "IDOSO" => "idoso",
+        "IDOSA" => "idoso",
+        "ADOLESCENTE" => "adolescente",
+        "Adulta/ Idosa" => "idoso"
       }
 
       transformed_hash['phone'] = transformed_hash['phone'].gsub(/\D/, '')
