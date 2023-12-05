@@ -10,6 +10,7 @@ require './models/guest'
 require './models/confirmation'
 require 'csv'
 require 'i18n'
+require 'tzinfo'
 
 configure do
   I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
@@ -67,7 +68,7 @@ get '/guests/confirm/:salt' do
     @salt = params[:salt]
     erb :guest_show
   else
-    @message = "Usuário não encontrado!"
+    @message = "Usuário não encontrado ou já confirmado!"
     @message_type = "warning"
     erb :not_found
   end
@@ -113,7 +114,7 @@ post '/api/guests/confirm/:salt' do
       status 420
       json({message: "Usuário já confirmou entrada!"})
     else
-      @confirmation = Confirmation.create(guest_id: @guest.id)
+      @confirmation = Confirmation.create(guest_id: @guest.id, details_confirm:  Time.now.strftime("%H:%M do dia %d/%m/%Y"))
       status 200
       json({message: "Entrada confirmada com sucesso!"})
     end
@@ -136,7 +137,7 @@ post '/guests/confirm/:salt' do
     @message = "O usuário já confirmou a entrada!"
     @message_type = "warning"
   else
-    @confirmation = Confirmation.create(guest_id: @guest.id)
+    @confirmation = Confirmation.create(guest_id: @guest.id, details_confirm:  Time.now.strftime("%H:%M do dia %d/%m/%Y"))
     @message = "Entrada confirmada com sucesso!"
     @message_type = "success"
   end
