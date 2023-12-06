@@ -1,3 +1,3 @@
 class Confirmation < ActiveRecord::Base
-  belongs_to :guests
+  belongs_to :guest
 end

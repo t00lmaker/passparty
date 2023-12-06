@@ -50,7 +50,7 @@ end
 
 get '/guests/export' do
   content_type 'application/csv'
-  attachment "guests.csv"
+  attachment "convidados.csv"
 
   CSV.generate do |csv|
     csv << ["id", "Convidado", "Faixa Etária", "Telefone"]
@@ -239,4 +239,23 @@ end
 get '/guests' do
   @guests = Guest.all
   erb :guests
+end
+
+
+get '/confirmations' do
+  @confirmations = Confirmation.all
+  @confirmations.map { |c| puts c.guest }
+  erb :confirmations
+end
+
+get '/confirmations/export' do
+  content_type 'application/csv'
+  attachment "presentes.csv"
+
+  CSV.generate do |csv|
+    csv << ["Convidado", "Telefone", "Confirmado em"]
+    Confirmation.all.each do |confirmation|
+      csv << [confirmation.guest.name, confirmation.guest.phone, confirmation.details_confirm]
+    end
+  end
 end
