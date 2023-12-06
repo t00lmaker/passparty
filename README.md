@@ -50,3 +50,9 @@ apt update && apt install -y postgresql
 ```bash
 psql -h $DATABASE_HOST -U $DATABASE_USER -d $DATABASE_NAME 
 ```
+
+4. Export Images:
+
+```bash
+DATABASE_USERNAME= DATABASE_NAME= DATABASE_USERNAME= DATABASE_PASSWORD= ruby ./scripts/export_images.rb
+```

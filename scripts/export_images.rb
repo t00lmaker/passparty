@@ -33,8 +33,8 @@ end
 
 OTR::ActiveRecord.configure_from_hash!(
     adapter: "postgresql", 
-    host: ENV['DATABASE_USERNAME'], 
-    database: ENV['DATABASE_NAME'], 
+    host: ENV['DATABASE_HOST'], 
+    database: ENV['DATABASE_BASENAME'], 
     username: ENV['DATABASE_USERNAME'], 
     password: ENV['DATABASE_PASSWORD'], 
     encoding: "utf8", 
