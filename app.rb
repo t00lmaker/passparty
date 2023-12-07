@@ -41,7 +41,7 @@ end
 
 get '/guest' do
   @guest = Guest.new
-  erb :guest
+  erb :guest_form_new
 end
 
 get '/guests/import' do
@@ -126,7 +126,29 @@ end
 
 get '/guests/:id/edit' do
   @guest = Guest.find(params[:id])
-  erb :guest
+  erb :guest_form_edit
+end
+
+put '/guests/:id' do
+  @guest = Guest.find(params[:id])
+  if @guest.nil?
+    @message = "Convidado não enconrado!"
+    @message_type = "warning"
+    redirect '/guests'
+  else
+    if @guest.update(
+      name: params[:name], 
+      phone: params[:phone],
+      age: params[:age]
+    )
+      @message = "Entrada confirmada com sucesso!"
+      @message_type = "success"
+    else
+      @message = "Convidado não pode ser alterado, contact o administrador."
+      @message_type = "warning"
+    end
+    erb :guest_show
+  end
 end
 
 post '/guests/confirm/:salt' do
@@ -240,8 +262,6 @@ get '/guests' do
   @guests = Guest.all
   erb :guests
 end
-
-
 get '/confirmations' do
   @confirmations = Confirmation.all
   @confirmations.map { |c| puts c.guest }
