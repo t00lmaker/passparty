@@ -45,7 +45,11 @@ helpers do
 end
 
 before do
-  @user = User.get_from_token(session[:user_token])
+  puts ">>>1  before: #{session[:user_token]}"
+  if session[:user_token]
+    @user = User.get_from_token(session[:user_token])
+  end
+  puts ">>>2 before: #{@user}"
 end
 
 get "/login" do
