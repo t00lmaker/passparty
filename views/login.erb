@@ -1,0 +1,16 @@
+<h1>Login</h1>
+
+<form id="login-form" action="/login" method="post" class="needs-validation" novalidate>
+  <div class="form-group">
+    <label for="name">Login:</label>
+    <input type="text" class="form-control" id="login" name="login" required>
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Pass:</label>
+    <input type="text" class="form-control" id="pass" name="pass" required>
+  </div>
+
+  <a href="javascript:{}" onclick="document.getElementById('login-form').submit(); return false;" class="btn btn-primary btn-sm"><i class="bi bi-save"></i> Entrar</a>
+  <a href="/" class="btn btn-danger btn-sm"><i class="bi-x-circle"></i> Cancelar</a>
+</form>

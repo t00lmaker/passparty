@@ -8,9 +8,17 @@ require 'rqrcode'
 require 'otr-activerecord'
 require './models/guest'
 require './models/confirmation'
+require './models/user'
+require './models/token'
 require 'csv'
 require 'i18n'
 require 'tzinfo'
+
+
+OTR::ActiveRecord.configure_from_file! "config/database.yml"
+OTR::ActiveRecord.establish_connection!
+
+URL = ENV["APP_URL"] || "localhost:9292" 
 
 configure do
   I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
@@ -20,10 +28,38 @@ configure do
   ENV['TZ'] = 'America/Sao_Paulo' 
 end
 
-OTR::ActiveRecord.configure_from_file! "config/database.yml"
-OTR::ActiveRecord.establish_connection!
+set :sessions => true
 
-URL = ENV["APP_URL"] || "localhost:9292" 
+register do
+  def auth (type)
+    condition do
+      redirect "/login" unless send("is_#{type}?")
+    end
+  end
+end
+
+helpers do
+  def is_user?
+    @user != nil
+  end
+end
+
+before do
+  @user = User.get_from_token(session[:user_token])
+end
+
+get "/login" do
+  erb :login, :layout => false
+end
+
+post '/login' do
+  session[:user_token] = User.authenticate(params[:login], params[:pass])
+  redirect "/"
+end
+
+get "/logout" do
+  session[:user_token] = nil
+end
 
 #not_found do
 #  erb :not_found
@@ -34,7 +70,7 @@ URL = ENV["APP_URL"] || "localhost:9292"
 #end
 
 
-get '/' do
+get '/', auth: :user do
   @guest = Guest.new
   erb :index
 end
