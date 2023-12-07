@@ -11,7 +11,7 @@
 <hr/>
 <div class="row justify-content-center">
   <div class="col-md-12">
-    <form id="guest-form" action="/guests/<%= @guest.id %>" method="post" class="needs-validation" novalidate>
+    <form id="guest-form" action="/guests /<%= @guest.id %>" method="post" class="needs-validation" novalidate>
       <input type="hidden" name="_method" value="PUT">
     
       <div class="form-group">
@@ -26,10 +26,10 @@
       
       <label for="age">Faixa Etária:</label>
       <select name="age" id="age" class="form-control">
-        <option value="adulto">Adulto</option>
-        <option value="adolescente">Adolescente</option>
-        <option value="crianca">Criança</option>
-        <option value="idoso">Idoso</option>
+        <option value="adulto" <%= @guest.age == 'adulto' ? 'selected' : '' %>>Adulto</option>
+        <option value="adolescente" <%= @guest.age == 'adolescente' ? 'selected' : ''  %> >Adolescente</option>
+        <option value="crianca" <%= @guest.age == 'crianca' ? 'selected' : ''  %> >Criança</option>
+        <option value="idoso" <%= @guest.age == 'idoso' ? 'selected' : ''  %>>Idoso</option>
       </select>
       
       <br/>
