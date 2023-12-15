@@ -53,9 +53,9 @@ get '/guests/export' do
   attachment "convidados.csv"
 
   CSV.generate do |csv|
-    csv << ["id", "Convidado", "Faixa Etária", "Telefone"]
+    csv << ["id", "Convidado", "Faixa Etária", "Telefone", "Ativo"]
     Guest.all.each do |guest|
-      csv << [guest.id, guest.name, guest.age, guest.phone]
+      csv << [guest.id, guest.name, guest.age, guest.phone, guest.is_active ? 'SIM' : 'NÃO' ]
     end
   end
 end
@@ -198,15 +198,17 @@ post '/guests/import' do
     CSV.foreach(params[:file][:tempfile], headers: true) do |row|
       i += 1
       from_to_attributes = {
-        'CONVIDADO' => 'name',
-        'FAIXA ETÁRIA' => 'age',
-        'TELEFONE' => 'phone'
+        'id' => 'id',
+        'Convidado' => 'name',
+        'Faixa Etária' => 'age',
+        'Telefone' => 'phone',
+        'Ativo' => 'is_active'
       }
       row_hash = row.to_hash
       transformed_hash = row_hash.transform_keys { |key| from_to_attributes[key] }
 
-      if transformed_hash.size != 3 or transformed_hash.values.any? {|v| v.nil? or v.empty?} 
-        invalid_guests << {line: i, errors: "Dados incompletos"}
+      if transformed_hash.size != 5 or transformed_hash.values.any? {|v| v.nil? or v.empty?} 
+        invalid_guests << {line: i, errors: "Dados incompletos ou inválidos. Check essa linha do arquivo!"}
         next
       end
 
@@ -223,8 +225,9 @@ post '/guests/import' do
       transformed_hash['phone'] = transformed_hash['phone'].gsub(/\D/, '')
       transformed_hash['phone'] = transformed_hash['phone'].insert(0, '(').insert(3, ') ').insert(10, '-')
       transformed_hash['age'] = from_to_age[transformed_hash['age']] ? from_to_age[transformed_hash['age']] : "crianca"
+      transformed_hash['is_active'] = transformed_hash['is_active'] == nil || transformed_hash['is_active'] == 'SIM' ? true : false
       
-      guest = Guest.new(transformed_hash.merge({is_active: true, salt: SecureRandom.uuid.split("-")[0]}))
+      guest = Guest.new(transformed_hash.merge({salt: SecureRandom.uuid.split("-")[0]}))
       if guest.valid?  
         valid_guests << guest        
       else 
