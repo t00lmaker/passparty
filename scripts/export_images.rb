@@ -44,7 +44,6 @@ OTR::ActiveRecord.configure_from_hash!(
 
 OTR::ActiveRecord.establish_connection!
 
-
 @guests = Guest.first(500)
 for guest in @guests
   QRCodeGenerator.generate(guest)
